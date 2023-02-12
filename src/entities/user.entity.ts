@@ -3,7 +3,7 @@ import { BaseEntity } from "./base.entity";
 export class User extends BaseEntity {
 
     private nameUser: string;
-    private dateBirth: string;
+    private dateBirth: Date;
     private email: string;
     private phoneNumber: string;
 
@@ -16,3 +16,4 @@ export class User extends BaseEntity {
     }
 
 }
+

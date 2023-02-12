@@ -7,9 +7,19 @@ import { Request, Response } from 'express';
 export class UserController extends BaseController {
 
   static readonly collection: any = 'users';
+  static result: Promise<User>;
 
   constructor() {
     super();
+  }
+
+  static findUserByEmail = async () => {
+    dbConnection().then((connection) => {
+      const userRepository = new UserRepository(connection.db(this.dataBase), this.collection);
+      this.result = userRepository.findByEmail('test@correo.com');
+      connection.close;
+    });
+    return this.result;
   }
 
   static getAllUsers = async (req: Request, res: Response) => {
@@ -31,7 +41,7 @@ export class UserController extends BaseController {
           data: [result],
           message: "success finding by id",
         });
-      } catch (err:any) {
+      } catch (err: any) {
         res.status(404).send(err.message);
       }
     })

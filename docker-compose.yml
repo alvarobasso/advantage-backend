@@ -1,0 +1,30 @@
+version: '3.7'
+
+services:
+
+  advantage-backend:
+    container_name: advantage-backend
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.advantage-backend.rule=Host(`bproject.info`)"
+      - "traefik.http.routers.advantage-backend.entrypoints=advantage-backend"
+      - "traefik.http.routers.advantage-backend.tls.certresolver=myresolver"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.redirs.rule=hostregexp(`{host:.+}`)"
+      - "traefik.http.routers.redirs.entrypoints=web"
+      - "traefik.http.routers.redirs.middlewares=redirect-to-https"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
+    ports:
+      - 4004:3051
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+
+networks:
+  default:
+    name: traefik_default
+    external: true
