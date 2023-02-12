@@ -1,0 +1,25 @@
+name: Build & Deploy
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    
+      - name: Deploy files
+        uses: appleboy/ssh-action@master
+        with: 
+          host: ${{secrets.HOST}}
+          key: ${{secrets.KEY}}
+          username: ${{secrets.USERNAME}}
+          
+          script : |
+            rm -R projects/advantage-backend/
+            cd projects
+            git clone git@github.com:alvarobasso/advantage-backend.git
+            cp ../conf/advantage-backend/.env advantage-backend/.env
+            
+            cd advantage-backend
+            docker-compose up -d --build
