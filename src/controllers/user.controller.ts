@@ -13,15 +13,6 @@ export class UserController extends BaseController {
     super();
   }
 
-  static findUserByEmail = async () => {
-    dbConnection().then((connection) => {
-      const userRepository = new UserRepository(connection.db(this.dataBase), this.collection);
-      this.result = userRepository.findByEmail('test@correo.com');
-      connection.close;
-    });
-    return this.result;
-  }
-
   static getAllUsers = async (req: Request, res: Response) => {
     dbConnection().then((connection) => {
       const userRepository = new UserRepository(connection.db(this.dataBase), this.collection);
@@ -52,7 +43,6 @@ export class UserController extends BaseController {
       const user = new User(req.body);
       const userRepository = new UserRepository(connection.db(this.dataBase), this.collection);
       this.createNew(res, user, userRepository);
-      connection.close;
     });
   };
 

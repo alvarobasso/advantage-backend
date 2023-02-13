@@ -24,7 +24,7 @@ app.use(express.json());
 dbConnection();
 
 app.get("/", (req: Request, res: Response, next: NextFunction): void => {
-  res.json({ message: "Notes backend is working!" });
+  res.json({ message: "Advantage backend is working!" });
 });
 
 app.use("/users", user);

@@ -9,7 +9,7 @@ export abstract class BaseRepository<T> implements IWrite<T>, IRead<T> {
   }
 
   async find(): Promise<T[]> {
-    const result: any = await this._collection.find().toArray();
+    const result: any = await this._collection.find({status: true}).toArray();
     return result;
   }
 

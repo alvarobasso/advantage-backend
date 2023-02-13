@@ -43,7 +43,7 @@ export class BaseController {
       await repository.create(user);
       res.status(200).send({
         data: [user],
-        message: "success creating new",
+        message: "Success creating new record",
       });
     } catch (err) {
       res.status(404).send(err.message);

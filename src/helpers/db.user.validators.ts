@@ -1,10 +1,11 @@
-import { UserRepository } from "../repositories/user.repository";
+import { MongoClient } from "mongodb";
+import * as dotenv from "dotenv";
 import { dbConnection } from "../database/config";
-import { User } from "../entities/user.entity";
-import { UserController } from "../controllers/user.controller";
 
 export const emailExists = async (email = '') => {
-    const existsEmail = await UserController.findUserByEmail();
+    const collection = await dbConnection();
+    const existsEmail = await  collection.db("advantage").collection("users").findOne({ email });
+    collection.close();
     if (existsEmail) {
         throw new Error(`The email: ${email}, is already registered`);
     }
